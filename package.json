@@ -1,10 +1,78 @@
 {
+  "name": "nativescript-videoplayer",
+  "version": "5.0.1",
+  "main": "videoplayer",
+  "typings": "videoplayer.d.ts",
+  "description": "A NativeScript plugin that uses the native video players to play local and remote videos.",
+  "nativescript": {
+    "platforms": {
+      "android": "7.0.0",
+      "ios": "7.0.0"
+    },
+    "plugin": {
+      "nan": "true",
+      "pan": "true",
+      "core3": "true",
+      "category": "Interface"
+    }
+  },
   "scripts": {
-    "ci.base.setup": "npm i -g typescript@3.9.7 && echo no | npm i -g nativescript && tns usage-reporting disable && tns error-reporting disable && cd src && npm run build",
-    "ci.pip.install": "sudo pip install --upgrade pip && sudo pip install six",
-    "ci.tslint": "cd src && npm run ci.tslint && cd ../demo && npm run ci.tslint",
-    "ci.vanilla.android.build": "cd demo && tns build android --env.uglify",
-    "ci.vanilla.ios.build": "cd demo && tns build ios --env.uglify",
-    "demo-ng.ios": "cd demo-ng && ns run ios"
+    "tsc": "tsc -skipLibCheck",
+    "build": "npm i && ts-patch install && tsc",
+    "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\" --exclude \"*demo*/platforms/**\"",
+    "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
+    "demo.ios": "npm run build && cd ../demo && tns run ios --no-hmr",
+    "demo.android": "npm run build && cd ../demo && tns run android --no-hmr",
+    "generate.typings.ios": "cd ../demo && TNS_DEBUG_METADATA_PATH=\"$(pwd)/metadata\" tns build ios && TNS_TYPESCRIPT_DECLARATIONS_PATH=\"$(pwd)/typings\" tns build ios && echo 'Now look for your library typings in demo/typings!'",
+    "make-changelog": "cd ../ && github_changelog_generator -u nstudio -p nativescript-videoplayer"
+  },
+  "_lint-staged": {
+    "**/*.{js, css, ts, json, scss, html, xml, md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "_husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run tslint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nstudio/nativescript-videoplayer.git"
+  },
+  "keywords": [
+    "NativeScript",
+    "Android",
+    "iOS",
+    "TypeScript",
+    "video",
+    "video player",
+    "movie"
+  ],
+  "author": {
+    "name": "Brad Martin",
+    "email": "bmartin@nstudio.io",
+    "url": "https://github.com/bradmartin"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bradmartin/nativescript-videoplayer/issues"
+  },
+  "homepage": "https://github.com/bradmartin/nativescript-videoplayer",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "@nativescript/core": "^7.0.0",
+    "@nativescript/types": "^7.0.0",
+    "@nativescript/webpack": "~3.0.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.13",
+    "prettier": "^2.1.1",
+    "rimraf": "^3.0.2",
+    "tslint": "~6.1.3",
+    "ts-patch": "^1.3.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.0"
   }
 }

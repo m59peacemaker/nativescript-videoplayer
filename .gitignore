@@ -5,7 +5,6 @@ demo/lib/*
 *.DS_Store
 
 src/*.js
-/*.js
 demo/app/**.js
 demo/node_modules/
 node_modules/
@@ -16,8 +15,6 @@ demo/.DS_Store
 demo/app/.DS_Store
 .DS_Store
 .npmrc
-*.js
-*.js.map
 *.log
 src/*.d.ts
 !src/index.d.ts
