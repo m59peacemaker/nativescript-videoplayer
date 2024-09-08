@@ -47,6 +47,11 @@ export class Video extends VideoCommon {
         this.nativeView.setSurfaceTextureListener(new android.view.TextureView.SurfaceTextureListener({
             onSurfaceTextureSizeChanged: (surface, width, height) => {
                 CLog(CLogTypes.info, 'SurfaceTextureListener.onSurfaceTextureSizeChanged ---', `surface: ${surface}, width: ${width}, height: ${height}`);
+                if (this._owner.get().fill === true) {
+                    this._owner.get()._resetAspectRatio();
+                } else {
+                    this._owner.get()._setupAspectRatio();
+                }
             },
             onSurfaceTextureAvailable: (surface, width, height) => {
                 CLog(CLogTypes.info, 'SurfaceTextureListener.onSurfaceTextureAvailable ---', `surface: ${surface}`);
